@@ -8,9 +8,12 @@ using UnityEngine.Playables;
 public class PlaySingleAnimation : MonoBehaviour
 {
     public AnimationClip clip;
+    public float time;
+    public bool pause;
 
     PlayableGraph playableGraph;
-   
+    AnimationClipPlayable clipPlayable;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +25,7 @@ public class PlaySingleAnimation : MonoBehaviour
 
         // Wrap the clip in a playable
 
-        var clipPlayable = AnimationClipPlayable.Create(playableGraph, clip);
+        clipPlayable = AnimationClipPlayable.Create(playableGraph, clip);
 
         // Connect the Playable to an output
 
@@ -40,7 +43,13 @@ public class PlaySingleAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (pause)
+        {
+            clipPlayable.Pause();
+            clipPlayable.SetTime(time);
+        }
+        else
+            clipPlayable.Play();
     }
     void OnDisable()
 
